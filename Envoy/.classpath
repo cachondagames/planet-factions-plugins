@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="module" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry including="**/*.java" kind="src" path="src">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/PowerSpec/Videos/Plugin/spigot-1.8.8-R0.1-SNAPSHOT-latest.jar" sourcepath="C:/Users/PowerSpec/Videos/Plugin/bukkit-1.9.2-R0.1-20160507.064121-46-javadoc.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
