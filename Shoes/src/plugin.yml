@@ -1,0 +1,9 @@
+name: ShoesYudi
+version: 0.0.1
+author: Cantaress
+main: org.planetfactions.shoes.Main
+description: A dumb stupid shoes plugin
+
+commands:
+   shoes:
+      description: Save me

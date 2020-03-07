@@ -7,10 +7,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.planetfactions.envoy.Main;
 import org.planetfactions.envoy.app.Envoy;
 
-public class EnvoyAutoStart implements Listener
+public class EnvoyAutoPlayerListener implements Listener
 {
 	private Envoy envoy = Envoy.getEnvoyEvent();
-	public EnvoyAutoStart(Main plugin)
+	public EnvoyAutoPlayerListener(Main plugin)
 	{
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

@@ -10,10 +10,10 @@ import org.planetfactions.envoy.Main;
 import org.planetfactions.envoy.app.Envoy;
 
 
-public class RandEnvoyCommand implements CommandExecutor
+public class EnvoyCommand implements CommandExecutor
 {
 	private Envoy envoy = Envoy.getEnvoyEvent();
-	public RandEnvoyCommand(Main plugin)
+	public EnvoyCommand(Main plugin)
 	{
 		plugin.getCommand("envoy").setExecutor(this);
 	}

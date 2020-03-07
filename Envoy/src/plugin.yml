@@ -1,9 +1,8 @@
-name: EnvoyYudichak
-version: 1.1.2
-author: Cantaress
 main: org.planetfactions.envoy.Main
-description: A Envoy plugin!
+name: Envoy
+version: '1.1.2'
+description: A Envoy Plugin
 
 commands:
   envoy:
-   description: Shows plugin help
+   description: Shows plugin helps

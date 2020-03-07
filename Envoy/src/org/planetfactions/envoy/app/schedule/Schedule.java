@@ -1,4 +1,4 @@
-package org.planetfactions.envoy.app.listeners;
+package org.planetfactions.envoy.app.schedule;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

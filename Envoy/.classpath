@@ -12,6 +12,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/PowerSpec/Videos/Plugin/spigot-1.8.8-R0.1-SNAPSHOT-latest.jar" sourcepath="C:/Users/PowerSpec/Videos/Plugin/bukkit-1.9.2-R0.1-20160507.064121-46-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/PowerSpec/Videos/Plugin/server.jar" sourcepath="C:/Users/PowerSpec/Videos/Plugin/bukkit-1.9.2-R0.1-20160507.064121-46-javadoc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

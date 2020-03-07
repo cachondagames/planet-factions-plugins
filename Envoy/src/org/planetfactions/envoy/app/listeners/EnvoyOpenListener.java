@@ -11,11 +11,17 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.planetfactions.envoy.Main;
 import org.planetfactions.envoy.app.Envoy;
+import org.planetfactions.envoy.app.events.EnvoyTier1OpenEvent;
+import org.planetfactions.envoy.app.events.EnvoyTier2OpenEvent;
+import org.planetfactions.envoy.app.events.EnvoyTier3OpenEvent;
 
-public class EnvoyOpenEvent implements Listener
+public class EnvoyOpenListener implements Listener
 {
+	EnvoyTier1OpenEvent Tier1Open;
+	EnvoyTier2OpenEvent Tier2Open;
+	EnvoyTier3OpenEvent Tier3Open;
 	private Envoy envoy = Envoy.getEnvoyEvent();
-	public EnvoyOpenEvent(Main plugin)
+	public EnvoyOpenListener(Main plugin)
 	{
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
@@ -34,15 +40,15 @@ public class EnvoyOpenEvent implements Listener
 					{
 						if(e.getClickedBlock().getType().equals(Material.CHEST)) // Checks for tiers as below
 						{
-							Bukkit.broadcastMessage("Tier1 Works");
+							Tier1Open = new EnvoyTier1OpenEvent(e.getPlayer());
 						}
 						else if(e.getClickedBlock().getType().equals(Material.ENDER_CHEST))
 						{
-							Bukkit.broadcastMessage("Tier2 Works");
+							Tier2Open = new EnvoyTier2OpenEvent(e.getPlayer());
 						}
 						else
 						{
-							Bukkit.broadcastMessage("Tier3 Works");
+							Tier3Open = new EnvoyTier3OpenEvent(e.getPlayer());
 						}
 					}
 				}
