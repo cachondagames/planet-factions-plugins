@@ -1,0 +1,28 @@
+main: org.planetfactions.envoy.Main
+name: Envoy
+version: '1.1.2'
+description: A Envoy Plugin
+
+permissions:
+   envoy.*:
+      default: op
+      children:
+         envoy.create: true
+         envoy.help: true
+         envoy.debug: true
+         envoy.end: true
+   envoy.help:
+       default: op    
+   envoy.end:
+       default: op        
+   envoy.debug:
+       default: op    
+   envoy.create:
+       default: op
+
+commands:
+  envoy:
+   description: Shows plugin helps
+  envoyauto:
+   description: Shows plugin helps
+     

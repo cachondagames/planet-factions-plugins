@@ -1,5 +1,6 @@
 package org.planetfactions.envoy.app.events;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -8,15 +9,22 @@ public class EnvoyTier1OpenEvent extends Event
 {
 	
 	private final Player player;
+	private final Location location;
 	
-	public EnvoyTier1OpenEvent(Player player)
+	public EnvoyTier1OpenEvent(Player player, Location l)
 	{
 		this.player = player;
+		location = l;
 	}
 	
 	public Player getPlayer()
 	{
 		return player;
+	}
+	
+	public Location getLocation()
+	{
+		return location;
 	}
 	
 	private static final HandlerList HANDLERS = new HandlerList();

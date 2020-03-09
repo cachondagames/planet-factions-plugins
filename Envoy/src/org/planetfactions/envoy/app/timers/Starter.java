@@ -1,4 +1,4 @@
-package org.planetfactions.envoy.app.schedule;
+package org.planetfactions.envoy.app.timers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,6 +17,7 @@ public class Starter extends BukkitRunnable
 	@Override
 	public void run()
 	{
+		
 		if(envoy.getOutterBound() == 0)
 			envoy.setOutterBound(30);
 		if(envoy.getInnerBound() == 0)
@@ -25,7 +26,8 @@ public class Starter extends BukkitRunnable
 			Bukkit.broadcast(ChatColor.DARK_RED + "The server has attempted an auto start event however an Envoy is already active!", "envoy.create");
 		else
 		{
-		envoy.createEnvoyServerStart(envoy.getAutoStartCrates());
+		Bukkit.getScheduler().cancelTask(envoy.getTaskID());
+		envoy.createEnvoy(envoy.getAutoStartCrates());
 		Bukkit.broadcast(ChatColor.DARK_RED + "The server has autostarted an envoy event!", "envoy.create");
 		}
 	}

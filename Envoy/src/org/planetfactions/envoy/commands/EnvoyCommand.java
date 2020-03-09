@@ -168,7 +168,7 @@ public class EnvoyCommand implements CommandExecutor
 							{
 								if(envoy.possibleLocations(Integer.parseInt(args[1]))) // Checks to make sure that you can actually place as chests as defined by DISTANCE
 								{
-									envoy.createEnvoy(play, Integer.parseInt(args[1]));
+									envoy.createEnvoy(Integer.parseInt(args[1]));
 									play.sendMessage("You have started a new envoy!" + System.lineSeparator() + "Spawning in : " +  Integer.parseInt(args[1]) + " Chests");
 									return true;
 								}
@@ -233,34 +233,6 @@ public class EnvoyCommand implements CommandExecutor
 					return false;
 				}
 			
-			case "autostart":
-				if(play.hasPermission("envoy.create"))
-				{
-					try
-					{
-						envoy.setAutoStartCrates(Integer.parseInt(args[1]));
-						play.sendMessage(ChatColor.GREEN + "You have set the number of crates to spawn on an auto start to: " + envoy.getAutoStartCrates());
-						return true;
-					}
-					catch(NumberFormatException | ArrayIndexOutOfBoundsException e)
-					{
-						if(e instanceof ArrayIndexOutOfBoundsException)
-						{
-							play.sendMessage(ChatColor.GREEN + "The current amount of crates is: " + envoy.getAutoStartCrates());
-							return true;
-						}
-						else
-						{
-							play.sendMessage("The amount of crates needs to be an integer!");
-							return false;
-						}
-					}
-				}
-				else
-				{
-					play.sendMessage(ChatColor.RED + "You dont have permission to use this command!");
-					return false;
-				}
 			default: // Fallback send for anything that is not defined above
 				play.sendMessage(ChatColor.RED + "[Envoy] Invalid argument use /envoy for help");
 				return false;

@@ -1,4 +1,4 @@
-package org.planetfactions.envoy.app.schedule;
+package org.planetfactions.envoy.app.timers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -33,8 +33,10 @@ public class Schedule extends BukkitRunnable
 			{
 				Bukkit.getScheduler().cancelTask(TaskId);
 			}
-			catch(IllegalStateException e) {}
-			
+			catch(IllegalStateException e) 
+			{
+				
+			}
 			Bukkit.broadcast(ChatColor.YELLOW + "The Server Attempted to start an Envoy but not Enough Players Were Online", "envoy.create");
 		}
 	}
