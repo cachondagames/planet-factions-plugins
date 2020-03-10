@@ -33,7 +33,7 @@ public class EnvoyAutoPlayerListener implements Listener
 	@EventHandler
 	public void playerLeaveCheck(PlayerQuitEvent p)
 	{
-		if(Bukkit.getOnlinePlayers().size() < envoy.getNumberPlayers())
+		if(Bukkit.getOnlinePlayers().size() < envoy.getNumberPlayers() - 1)
 		{
 			envoy.setPlayersReached(false);
 		}
@@ -42,7 +42,7 @@ public class EnvoyAutoPlayerListener implements Listener
 	@EventHandler
 	public void playerKickCheck(PlayerKickEvent p)
 	{
-		if(Bukkit.getOnlinePlayers().size() < envoy.getNumberPlayers())
+		if(Bukkit.getOnlinePlayers().size() < envoy.getNumberPlayers() - 1)
 		{
 			envoy.setPlayersReached(false);
 		}
