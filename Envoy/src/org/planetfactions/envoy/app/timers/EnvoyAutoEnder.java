@@ -25,5 +25,6 @@ public class EnvoyAutoEnder extends BukkitRunnable
 		{
 			p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5[Envoy] &1An Envoy Event Has Ended!"));
 		}
+		this.cancel();
 	}
 }

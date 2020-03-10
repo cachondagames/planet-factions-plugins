@@ -1,7 +1,6 @@
 package org.planetfactions.envoy.app;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -13,8 +12,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.planetfactions.envoy.Main;
-import org.planetfactions.envoy.app.timers.EnvoyAutoEnder;
-import org.planetfactions.envoy.app.timers.Schedule;
+import org.planetfactions.envoy.app.timers.EnvoyValidConditionsChecker;
 
 public class Envoy
 {
@@ -50,7 +48,6 @@ public class Envoy
 			}				
 		}
 		chooseTier(chestlocations.get(0).getLocation());
-		BukkitTask autoender = new EnvoyAutoEnder().runTaskLater(Bukkit.getPluginManager().getPlugin("Envoy"), 36000L);
 		if(DEBUGSTATE)
 		{
 			for(Block b : chestlocations)
@@ -192,16 +189,8 @@ public class Envoy
 		GETLOCATIONON = 0;
 		ACTIVE = false;
 		Plugin plugin = Bukkit.getPluginManager().getPlugin("Envoy");
-		BukkitTask starter = new Schedule((Main) plugin).runTaskTimer(plugin, 36000L, 36000L);
+		BukkitTask starter = new EnvoyValidConditionsChecker((Main) plugin).runTaskTimer(plugin, 10L, 1000L);
 		setTaskID(starter.getTaskId());
-		List<BukkitTask> tasks = Bukkit.getScheduler().getPendingTasks();
-		for(BukkitTask task : tasks)
-		{
-			if(task instanceof EnvoyAutoEnder)
-			{
-				task.cancel();
-			}
-		}
 	}	
 	
 	public boolean getDebugState() // Method to get our debug state

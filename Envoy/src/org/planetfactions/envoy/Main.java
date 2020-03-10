@@ -6,7 +6,7 @@ import org.planetfactions.envoy.app.Envoy;
 import org.planetfactions.envoy.app.listeners.EnvoyAutoPlayerListener;
 import org.planetfactions.envoy.app.listeners.EnvoyOpenListener;
 import org.planetfactions.envoy.app.listeners.Tier1Listener;
-import org.planetfactions.envoy.app.timers.Schedule;
+import org.planetfactions.envoy.app.timers.EnvoyValidConditionsChecker;
 import org.planetfactions.envoy.commands.EnvoyAutoCommands;
 import org.planetfactions.envoy.commands.EnvoyCommand;
 
@@ -25,7 +25,7 @@ public class Main extends JavaPlugin
 		new EnvoyAutoPlayerListener(this);
 		new EnvoyAutoCommands(this);
 		new Tier1Listener(this);
-		BukkitTask starter = new Schedule(this).runTaskTimer(this, 100L, 1000L);
+		BukkitTask starter = new EnvoyValidConditionsChecker(this).runTaskTimer(this, 100L, 1000L);
 		envoy.setTaskID(starter.getTaskId());
 	}
 	
