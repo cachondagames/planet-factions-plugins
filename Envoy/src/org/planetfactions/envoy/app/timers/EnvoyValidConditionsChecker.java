@@ -38,7 +38,7 @@ public class EnvoyValidConditionsChecker extends BukkitRunnable
 					System.out.println(task.toString());
 				}
 			}
-			Bukkit.broadcast(ChatColor.YELLOW + "The Server Attempted to start an Envoy but not Enough Players Were Online", "envoy.create");
+			Bukkit.broadcast(ChatColor.YELLOW + "Not Enough Players Online to Schedule and Envoy!", "envoy.create");
 		}
 	}
 }
