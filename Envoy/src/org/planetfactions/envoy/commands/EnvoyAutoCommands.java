@@ -70,10 +70,39 @@ public class EnvoyAutoCommands  implements CommandExecutor
 			case "players":
 				if(player.hasPermission("envoy.create"))
 				{
+					try
+					{
+						envoy.setNumberPlayers(Integer.parseInt(args[1]));
+						String s = "&a[Envoy] &cYou have set the number of players to auto start an Envoy to; " + "&c" + envoy.getNumberPlayers();
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
+						return true;
+					}
+					catch(NumberFormatException | ArrayIndexOutOfBoundsException e)
+					{
+						if(e instanceof ArrayIndexOutOfBoundsException)
+						{
+							String s = "&a[Envoy] &cThe current number of players needed to start an Envoy is: " + "&c" + envoy.getNumberPlayers();
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
+							return true;
+						}
+						else
+						{
+							String s = "&a[Envoy] &4You need to set the number of players to an Integer!";
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
+							return false;
+						}
+					}
+				}
+			case "enable":
+				if(envoy.getEnvoyActiveState())
+				{
 					
 				}
+			default:
+				String s = "&a[Envoy] &4Invalid argument use /envoyauto help to see usage!";
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
+				return true;
 			}
 		}
-		return false;
 	}
 }

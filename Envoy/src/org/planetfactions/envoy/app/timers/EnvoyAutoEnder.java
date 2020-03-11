@@ -23,7 +23,7 @@ public class EnvoyAutoEnder extends BukkitRunnable
 		List<Player> players = Bukkit.getWorlds().get(0).getPlayers();	
 		for(Player p : players)
 		{
-			p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5[Envoy] &1An Envoy Event Has Ended!"));
+			p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2[Envoy] &bAn Envoy Event Has Ended!"));
 		}
 		this.cancel();
 	}

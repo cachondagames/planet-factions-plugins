@@ -7,8 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
-import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Material;
+import org.bukkit.FireworkEffect.Type;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
@@ -17,19 +17,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.planetfactions.envoy.Main;
 import org.planetfactions.envoy.app.Envoy;
-import org.planetfactions.envoy.app.events.EnvoyTier1OpenEvent;
+import org.planetfactions.envoy.app.events.EnvoyTier3OpenEvent;
 
-public class Tier1Listener implements Listener
+public class Tier3Listener implements Listener
 {
 	
 	Envoy envoy = Envoy.getEnvoyEvent();
-	public Tier1Listener(Main plugin)
+	public Tier3Listener(Main plugin)
 	{
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 	
 	@EventHandler
-	public void OpenEvent(EnvoyTier1OpenEvent e)
+	public void OpenEvent(EnvoyTier3OpenEvent e)
 	{
 		try
 		{
@@ -39,7 +39,7 @@ public class Tier1Listener implements Listener
 			envoy.chooseTier(block.get(i).getLocation());
 			String s = "&a[Envoy] &cThe next chest is located at: " + block.get(i).getX() + " " + block.get(i).getY() + " " + block.get(i).getZ();
 			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&' , s));
-            Firework fw = (Firework) block.get(i).getWorld().spawnEntity(block.get(i).getLocation(), EntityType.FIREWORK);
+			Firework fw = (Firework) block.get(i).getWorld().spawnEntity(block.get(i).getLocation(), EntityType.FIREWORK);
             FireworkMeta fwm = fw.getFireworkMeta();
             Random r = new Random();   
             int rt = r.nextInt(5) + 1;
@@ -53,7 +53,7 @@ public class Tier1Listener implements Listener
             fwm.addEffect(effect);
             int rp = r.nextInt(2) + 1;
             fwm.setPower(rp);
-            fw.setFireworkMeta(fwm);           
+            fw.setFireworkMeta(fwm);        
 		}
 		catch(IndexOutOfBoundsException i)
 		{

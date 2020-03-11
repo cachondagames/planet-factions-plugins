@@ -40,19 +40,20 @@ public class EnvoyOpenListener implements Listener
 					{
 						if(e.getClickedBlock().getType().equals(Material.CHEST)) // Checks for tiers as below
 						{
-							if(envoy.getLocationOn() >= 0)
-								Tier1Open = new EnvoyTier1OpenEvent(e.getPlayer(), e.getClickedBlock().getLocation());
+							Tier1Open = new EnvoyTier1OpenEvent(e.getPlayer(), e.getClickedBlock().getLocation());
 							Bukkit.getPluginManager().callEvent(Tier1Open);
 							e.setCancelled(true);
 						}
 						else if(e.getClickedBlock().getType().equals(Material.ENDER_CHEST))
 						{
-							Tier2Open = new EnvoyTier2OpenEvent(e.getPlayer());
+							Tier2Open = new EnvoyTier2OpenEvent(e.getPlayer(), e.getClickedBlock().getLocation());
+							Bukkit.getPluginManager().callEvent(Tier2Open);
 							e.setCancelled(true);
 						}
 						else
 						{
-							Tier3Open = new EnvoyTier3OpenEvent(e.getPlayer());
+							Tier3Open = new EnvoyTier3OpenEvent(e.getPlayer(), e.getClickedBlock().getLocation());
+							Bukkit.getPluginManager().callEvent(Tier3Open);
 							e.setCancelled(true);
 						}
 					}

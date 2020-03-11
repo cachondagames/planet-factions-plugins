@@ -1,18 +1,25 @@
 package org.planetfactions.envoy.app;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.FireworkEffect.Type;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitTask;
-import org.planetfactions.envoy.Main;
-import org.planetfactions.envoy.app.timers.EnvoyValidConditionsChecker;
+import org.planetfactions.envoy.app.timers.EnvoyAutoEnder;
+import org.planetfactions.envoy.app.timers.EnvoyStarter;
 
 public class Envoy
 {
@@ -27,7 +34,10 @@ public class Envoy
 	private int AUTOSTARTCRATES = 5;
 	private boolean PLAYERSREACHED = false;
 	private int GETLOCATIONON = 0;
-	private int TASKID = 0;
+	private int CONTASKID = 0;
+	private long AUTOENDTIME = 36000L;
+	private int ENDERID = 0;
+	private boolean AUTOSTART = true;
 	
 	public void createEnvoy(int numcrates) // Initial call to spawn all the crates
 	{	
@@ -35,9 +45,11 @@ public class Envoy
 		ACTIVE = true;
 		while(numcrates > 0)
 		{
+			Bukkit.getScheduler().cancelTask(getConditionTaskID());
+			BukkitTask autoender = new EnvoyAutoEnder().runTaskLater(Bukkit.getPluginManager().getPlugin("Envoy"), AUTOENDTIME);
 			double xVal = generateXValue();
 			double zVal = generateZValue();
-			Location temp = new Location(Bukkit.getWorld("world"), xVal, 100, zVal); // Generation of our random location in the world
+			Location temp = new Location(Bukkit.getWorlds().get(0), xVal, 100, zVal); // Generation of our random location in the world
 			Location chest = spawn.add(temp); // Sets the location near the spawn within the bounds as defined by INBOUND and OUTBOUND
 			double yVal = generateYValue(chest); // Makes sure the chest is on the ground **Possible bug with chest spawning in ground if the spawn is at y=100 or more**
 			chest.setY(yVal);
@@ -48,6 +60,27 @@ public class Envoy
 			}				
 		}
 		chooseTier(chestlocations.get(0).getLocation());
+		List<Player> list = Bukkit.getWorlds().get(0).getPlayers();
+		String s = "&a[Envoy] &bA Envoy Event Has Started!" + System.lineSeparator() + "&a[Envoy] &dThe First Chest is at: " + "&4" + chestlocations.get(0).getX() + " " + "&4" + chestlocations.get(0).getY() + " " + "&4" + chestlocations.get(0).getZ();
+		for(Player p : list)
+		{
+			p.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
+		}
+		Firework fw = (Firework) chestlocations.get(GETLOCATIONON).getWorld().spawnEntity(chestlocations.get(GETLOCATIONON).getLocation(), EntityType.FIREWORK);
+        FireworkMeta fwm = fw.getFireworkMeta();
+        Random r = new Random();   
+        int rt = r.nextInt(5) + 1;
+        Type type = Type.BALL;       
+        if (rt == 1) type = Type.BALL;
+        if (rt == 2) type = Type.BALL_LARGE;
+        if (rt == 3) type = Type.BURST;
+        if (rt == 4) type = Type.CREEPER;
+        if (rt == 5) type = Type.STAR;
+        FireworkEffect effect = FireworkEffect.builder().flicker(r.nextBoolean()).withColor(Color.AQUA).withFade(Color.PURPLE).with(type).trail(r.nextBoolean()).build();
+        fwm.addEffect(effect);
+        int rp = r.nextInt(2) + 1;
+        fwm.setPower(rp);
+        fw.setFireworkMeta(fwm);        
 		if(DEBUGSTATE)
 		{
 			for(Block b : chestlocations)
@@ -61,13 +94,13 @@ public class Envoy
 	{
 		Random ran1 = new Random();
 		int num = ran1.nextInt(100) + 1;
-		if(num < 101)
+		if(num < 60)
 		{
 			l.getBlock().setType(Material.CHEST);
 			GETLOCATIONON++;
 			return l.getBlock();
 		}
-		else if(num >= 300 && num <= 301)
+		else if(num >= 60 && num <= 91)
 		{
 			l.getBlock().setType(Material.ENDER_CHEST);
 			GETLOCATIONON++;
@@ -78,6 +111,19 @@ public class Envoy
 			l.getBlock().setType(Material.BEACON);
 			GETLOCATIONON++;
 			return l.getBlock();
+		}
+	}
+	
+	public void AutoStartSelector(boolean b)
+	{
+		if(b)
+		{
+			AUTOSTART = true;
+		}
+		else
+		{
+			AUTOSTART = false;
+			Bukkit.getScheduler().cancelTasks(Bukkit.getPluginManager().getPlugin("Envoy"));
 		}
 	}
 	
@@ -170,7 +216,13 @@ public class Envoy
 	
 	public double generateYValue(Location l) // Logic to bring chest to ground *Will mostly likely need improvement*
 	{
-		while(l.getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) // Checks if the block below is air runs until it is not
+		Material type = l.getBlock().getRelative(BlockFace.DOWN).getType();
+		while(type.equals(Material.AIR)) // Checks if the block below is air runs until it is not
+		{
+			l.setY(l.getY()-1);
+			type = l.getBlock().getRelative(BlockFace.DOWN).getType();
+		}
+		if(type.equals(Material.LONG_GRASS) || type.equals(Material.STATIONARY_WATER) || type.equals(Material.STATIONARY_LAVA))
 		{
 			l.setY(l.getY()-1);
 		}
@@ -182,15 +234,16 @@ public class Envoy
 		for (Block location : chestlocations) // Removes chests that were spawned
 		{
 			location.setType(Material.AIR);
-			if(getDebugState()) // DEBUG
+			if(DEBUGSTATE) // DEBUG
 				System.out.println("Removing Envoy at " + location.getX() + " " + location.getY() + " " + location.getZ());
 		}
 		chestlocations.clear(); // Reset chest list
 		GETLOCATIONON = 0;
 		ACTIVE = false;
-		Plugin plugin = Bukkit.getPluginManager().getPlugin("Envoy");
-		BukkitTask starter = new EnvoyValidConditionsChecker((Main) plugin).runTaskTimer(plugin, 10L, 1000L);
-		setTaskID(starter.getTaskId());
+		BukkitTask concheck = new EnvoyStarter().runTaskTimer(Bukkit.getPluginManager().getPlugin("Envoy"), 36000L, 36000L);
+		setConditionTaskID(concheck.getTaskId());
+		if(Bukkit.getScheduler().isQueued(ENDERID))
+			Bukkit.getScheduler().cancelTask(ENDERID);
 	}	
 	
 	public boolean getDebugState() // Method to get our debug state
@@ -284,14 +337,25 @@ public class Envoy
 	}
 
 	
-	public int getTaskID() 
+	public int getConditionTaskID() 
 	{
-		return TASKID;
+		return CONTASKID;
 	}
 
 	
-	public void setTaskID(int taskid)
+	public void setConditionTaskID(int taskid)
 	{
-		TASKID = taskid;
+		CONTASKID = taskid;
 	}
+	
+	public void setEnderID(int taskid)
+	{
+		ENDERID = taskid;
+	}
+	
+	public boolean getAutoStart()
+	{
+		return AUTOSTART;
+	}
+	
 }
