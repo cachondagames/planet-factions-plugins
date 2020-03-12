@@ -12,8 +12,10 @@ import org.planetfactions.envoy.app.Envoy;
 public class EnvoyAutoPlayerListener implements Listener
 {
 	private Envoy envoy = Envoy.getEnvoyEvent();
+	private Main plugin;
 	public EnvoyAutoPlayerListener(Main plugin)
 	{
+		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 	

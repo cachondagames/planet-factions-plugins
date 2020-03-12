@@ -1,6 +1,7 @@
 package org.planetfactions.envoy.app.listeners;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -33,30 +34,37 @@ public class EnvoyOpenListener implements Listener
 		{
 			if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) // Checks for right click on blocks
 			{
-				ArrayList<Block> blocks = envoy.getChestLocations();
-				for(Block b : blocks) // Checks if the block that was right clicked was one placed by envoy create
+				try 
 				{
-					if(e.getClickedBlock().equals(b))
+					ArrayList<Block> blocks = envoy.getChestLocations();
+					for(Block b : blocks) // Checks if the block that was right clicked was one placed by envoy create
 					{
-						if(e.getClickedBlock().getType().equals(Material.CHEST)) // Checks for tiers as below
+						if(e.getClickedBlock().equals(b))
 						{
-							Tier1Open = new EnvoyTier1OpenEvent(e.getPlayer(), e.getClickedBlock().getLocation());
-							Bukkit.getPluginManager().callEvent(Tier1Open);
-							e.setCancelled(true);
-						}
-						else if(e.getClickedBlock().getType().equals(Material.ENDER_CHEST))
-						{
-							Tier2Open = new EnvoyTier2OpenEvent(e.getPlayer(), e.getClickedBlock().getLocation());
-							Bukkit.getPluginManager().callEvent(Tier2Open);
-							e.setCancelled(true);
-						}
-						else
-						{
-							Tier3Open = new EnvoyTier3OpenEvent(e.getPlayer(), e.getClickedBlock().getLocation());
-							Bukkit.getPluginManager().callEvent(Tier3Open);
-							e.setCancelled(true);
+							if(e.getClickedBlock().getType().equals(Material.CHEST)) // Checks for tiers as below
+							{
+								Tier1Open = new EnvoyTier1OpenEvent(e.getPlayer(), e.getClickedBlock().getLocation());
+								Bukkit.getPluginManager().callEvent(Tier1Open);
+								e.setCancelled(true);
+							}
+							else if(e.getClickedBlock().getType().equals(Material.ENDER_CHEST))
+							{
+								Tier2Open = new EnvoyTier2OpenEvent(e.getPlayer(), e.getClickedBlock().getLocation());
+								Bukkit.getPluginManager().callEvent(Tier2Open);
+								e.setCancelled(true);
+							}
+							else
+							{
+								Tier3Open = new EnvoyTier3OpenEvent(e.getPlayer(), e.getClickedBlock().getLocation());
+								Bukkit.getPluginManager().callEvent(Tier3Open);
+								e.setCancelled(true);
+							}
 						}
 					}
+				}
+				catch(ConcurrentModificationException b)
+				{
+					
 				}
 			}
 		}

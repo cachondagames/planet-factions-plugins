@@ -1,6 +1,5 @@
 package org.planetfactions.envoy;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.planetfactions.envoy.app.Envoy;
@@ -16,10 +15,12 @@ import org.planetfactions.envoy.commands.EnvoyCommand;
 
 public class Main extends JavaPlugin
 {
-	FileConfiguration config = getConfig();
 	Envoy envoy = Envoy.getEnvoyEvent();
 	public void onEnable()
 	{
+		saveDefaultConfig();
+		envoy.setplugin(this);
+		envoy.loadConfig();
 		new EnvoyCommand(this);
 		new EnvoyOpenListener(this);
 		new EnvoyAutoPlayerListener(this);
@@ -32,7 +33,7 @@ public class Main extends JavaPlugin
 			BukkitTask concheck = new EnvoyStarter().runTaskTimer(this, 36000L, 36000L);
 			envoy.setConditionTaskID(concheck.getTaskId());
 		}
-		if(Bukkit.getOnlinePlayers().size() >= envoy.getNumberPlayers())
+		if(Bukkit.getOnlinePlayers().size() >= this.getConfig().getInt("autostartplayers"))
 		{
 			envoy.setPlayersReached(true);
 		}

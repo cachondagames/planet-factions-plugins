@@ -37,26 +37,21 @@ public class Tier2Listener implements Listener
 			int i = envoy.getLocationOn();
 			e.getLocation().getBlock().setType(Material.AIR);
 			envoy.chooseTier(block.get(i).getLocation());
-			String s = "&a[Envoy] &cThe next chest is located at: " + block.get(i).getX() + " " + block.get(i).getY() + " " + block.get(i).getZ();
+			String s = "&a[Envoy] &dThe next chest is located at: " + "&4" + block.get(i).getX() + " " + "&4" +  block.get(i).getY() + " " + "&4" +  block.get(i).getZ();
 			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&' , s));
 			Firework fw = (Firework) block.get(i).getWorld().spawnEntity(block.get(i).getLocation(), EntityType.FIREWORK);
             FireworkMeta fwm = fw.getFireworkMeta();
             Random r = new Random();   
-            int rt = r.nextInt(5) + 1;
-            Type type = Type.BALL;       
-            if (rt == 1) type = Type.BALL;
-            if (rt == 2) type = Type.BALL_LARGE;
-            if (rt == 3) type = Type.BURST;
-            if (rt == 4) type = Type.CREEPER;
-            if (rt == 5) type = Type.STAR;
+            Type type = Type.BALL_LARGE;       
             FireworkEffect effect = FireworkEffect.builder().flicker(r.nextBoolean()).withColor(Color.AQUA).withFade(Color.PURPLE).with(type).trail(r.nextBoolean()).build();
             fwm.addEffect(effect);
-            int rp = r.nextInt(2) + 1;
-            fwm.setPower(rp);
-            fw.setFireworkMeta(fwm);        
+            fwm.setPower(3);
+            fw.setFireworkMeta(fwm);
+            envoy.setEnvoyClick(e.getPlayer());
 		}
 		catch(IndexOutOfBoundsException i)
 		{
+			envoy.setEnvoyClick(e.getPlayer());
 			envoy.endEnvoy();
 		}
 	}

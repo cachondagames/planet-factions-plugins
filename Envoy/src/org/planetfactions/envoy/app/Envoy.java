@@ -1,6 +1,7 @@
 package org.planetfactions.envoy.app;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -18,12 +19,16 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitTask;
+import org.planetfactions.envoy.Main;
 import org.planetfactions.envoy.app.timers.EnvoyAutoEnder;
 import org.planetfactions.envoy.app.timers.EnvoyStarter;
 
 public class Envoy
 {
+	private HashMap<Player, Integer> envoyclicks = new HashMap<Player, Integer>();
+	private ArrayList<Player> envoyiter = new ArrayList<Player>();
 	private ArrayList<Block> chestlocations = new ArrayList<Block>();
+	private Main plugin;
 	private boolean DEBUGSTATE = false;
 	private double OUTBOUND = 0;
 	private double INBOUND = 0;
@@ -38,7 +43,7 @@ public class Envoy
 	private long AUTOENDTIME = 36000L;
 	private int ENDERID = 0;
 	private boolean AUTOSTART = true;
-	
+
 	public void createEnvoy(int numcrates) // Initial call to spawn all the crates
 	{	
 		Location spawn = Bukkit.getWorld("world").getSpawnLocation(); // Gets world spawn
@@ -67,20 +72,13 @@ public class Envoy
 			p.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
 		}
 		Firework fw = (Firework) chestlocations.get(GETLOCATIONON).getWorld().spawnEntity(chestlocations.get(GETLOCATIONON).getLocation(), EntityType.FIREWORK);
-        FireworkMeta fwm = fw.getFireworkMeta();
-        Random r = new Random();   
-        int rt = r.nextInt(5) + 1;
-        Type type = Type.BALL;       
-        if (rt == 1) type = Type.BALL;
-        if (rt == 2) type = Type.BALL_LARGE;
-        if (rt == 3) type = Type.BURST;
-        if (rt == 4) type = Type.CREEPER;
-        if (rt == 5) type = Type.STAR;
-        FireworkEffect effect = FireworkEffect.builder().flicker(r.nextBoolean()).withColor(Color.AQUA).withFade(Color.PURPLE).with(type).trail(r.nextBoolean()).build();
-        fwm.addEffect(effect);
-        int rp = r.nextInt(2) + 1;
-        fwm.setPower(rp);
-        fw.setFireworkMeta(fwm);        
+		FireworkMeta fwm = fw.getFireworkMeta();
+		Random r = new Random();   
+		Type type = Type.BALL_LARGE;       
+		FireworkEffect effect = FireworkEffect.builder().flicker(r.nextBoolean()).withColor(Color.AQUA).withFade(Color.PURPLE).with(type).trail(r.nextBoolean()).build();
+		fwm.addEffect(effect);
+		fwm.setPower(3);
+		fw.setFireworkMeta(fwm);        
 		if(DEBUGSTATE)
 		{
 			for(Block b : chestlocations)
@@ -89,7 +87,7 @@ public class Envoy
 			}
 		}
 	}
-	
+
 	public Block chooseTier(Location l) // Randomly selects tiers 60:30:10 distribution with 100 over hang
 	{
 		Random ran1 = new Random();
@@ -113,43 +111,46 @@ public class Envoy
 			return l.getBlock();
 		}
 	}
-	
+
 	public void AutoStartSelector(boolean b)
 	{
 		if(b)
 		{
 			AUTOSTART = true;
+			plugin.getConfig().set("autostartenabled", true);
+			plugin.saveConfig();
 		}
 		else
 		{
 			AUTOSTART = false;
-			Bukkit.getScheduler().cancelTasks(Bukkit.getPluginManager().getPlugin("Envoy"));
+			plugin.getServer().getScheduler().cancelTasks(plugin);
+			plugin.getConfig().set("autostartenabled", false);
+			plugin.saveConfig();
 		}
 	}
-	
+
 	public boolean possibleLocations(int numcrates) // Calculates the possible amount of envoys that can be placed within 
 	{
 		int outboundarea = (int) Math.pow((OUTBOUND*2),2);
 		int inboundarea = (int) Math.pow((INBOUND*2),2);
 		int distancearea = (int) Math.pow((DISTANCE*2),2);
 		int blkamount = outboundarea - inboundarea;
-		if(blkamount/distancearea > numcrates)
+		if(blkamount/distancearea >= numcrates)
 		{
 			if(DEBUGSTATE) // DEBUG
 			{
-				System.out.println("You are only able to spawn: " + blkamount/numcrates + " Crates");		
+				System.out.println("You are only able to spawn: " + blkamount/distancearea + " Crates");		
 			}
 			return true;
 		}
 		else
 			if(DEBUGSTATE) // DEBUG
 			{				
-				System.out.println("You are only able to spawn: " + blkamount/numcrates + " Crates");
+				System.out.println("You are only able to spawn: " + blkamount/distancearea + " Crates");
 			}
-			return false;
-				
+		return false;
 	}
-	
+
 	public boolean isLocationGood(Block b) // Logic for ensuring the location that is picked is within the bounds * Maybe make the bound be able to be set?*
 	{
 		if(chestlocations.size() == 1) // If the array only has one location or none will force a true to returned
@@ -165,11 +166,11 @@ public class Envoy
 			}
 			if(b.getLocation().distance(Bukkit.getWorld("world").getSpawnLocation()) < INBOUND) // Using distance method to ensure that negative numbers dont cause our location to be set inside of our INBOUND
 				return false;
-			
+
 			return true;
 		}
 	}
-	
+
 	public double generateXValue() // Logic to generate random X value 
 	{
 		int TempX = (int) Math.round((Math.random()*OUTBOUND+1)); // First call to generate random number then rounds up and casts as integer
@@ -191,7 +192,7 @@ public class Envoy
 		}
 		return xVal;
 	}
-	
+
 	public double generateZValue() // See Above
 	{
 		int TempZ = (int) Math.round((Math.random()*OUTBOUND+1));
@@ -213,7 +214,7 @@ public class Envoy
 		}
 		return zVal;
 	}
-	
+
 	public double generateYValue(Location l) // Logic to bring chest to ground *Will mostly likely need improvement*
 	{
 		Material type = l.getBlock().getRelative(BlockFace.DOWN).getType();
@@ -228,29 +229,75 @@ public class Envoy
 		}
 		return l.getY();
 	}
-	
+
 	public void endEnvoy() //
 	{
-		for (Block location : chestlocations) // Removes chests that were spawned
+		for (int i = GETLOCATIONON - 1 ; i >=0; i--) // Removes chests that were spawned
 		{
-			location.setType(Material.AIR);
-			if(DEBUGSTATE) // DEBUG
-				System.out.println("Removing Envoy at " + location.getX() + " " + location.getY() + " " + location.getZ());
+			chestlocations.get(i).setType(Material.AIR);
+			if(DEBUGSTATE) // DEBUG 
+				System.out.println("Removing Envoy at " + chestlocations.get(i).getX() + " " + chestlocations.get(i).getY() + " " + chestlocations.get(i).getZ());
 		}
 		chestlocations.clear(); // Reset chest list
 		GETLOCATIONON = 0;
 		ACTIVE = false;
-		BukkitTask concheck = new EnvoyStarter().runTaskTimer(Bukkit.getPluginManager().getPlugin("Envoy"), 36000L, 36000L);
-		setConditionTaskID(concheck.getTaskId());
-		if(Bukkit.getScheduler().isQueued(ENDERID))
-			Bukkit.getScheduler().cancelTask(ENDERID);
-	}	
-	
+		if(AUTOSTART)
+		{
+			BukkitTask concheck = new EnvoyStarter().runTaskTimer(plugin, 36000L, 36000L);
+			setConditionTaskID(concheck.getTaskId());
+		}
+		if(plugin.getServer().getScheduler().isQueued(ENDERID))
+			plugin.getServer().getScheduler().cancelTask(ENDERID);
+		if(envoyiter.size() > 1)
+		{
+			int t = 0;
+			Player p = null;
+			for(int i = envoyiter.size() - 1; i > 0; i--)
+			{
+				if(envoyclicks.get(envoyiter.get(i)).compareTo(envoyclicks.get(envoyiter.get(i-1))) > 0)
+				{
+					t = i;
+					p = envoyiter.get(i);
+				}
+				else
+				{
+					t = i-1;
+					p = envoyiter.get(i-1);
+				}
+			}
+			List<Player> players = Bukkit.getWorlds().get(0).getPlayers();
+			for(Player player : players)
+			{
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a[Envoy] &dThe Envoy has ended! Congraulations to: " + p.getDisplayName() + " for collecting " + t + " Envoys!"));
+			}
+		}
+		else if(envoyiter.size() == 0)
+		{
+			List<Player> players = Bukkit.getWorlds().get(0).getPlayers();
+			for(Player player : players)
+			{
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a[Envoy] &dThe Envoy has ended! Nobody collected any Envoys!"));
+			}
+		}
+		else
+		{
+			List<Player> players = Bukkit.getWorlds().get(0).getPlayers();
+			Player p = envoyiter.get(0);
+			int t = envoyclicks.get(p);
+			for(Player player : players)
+			{
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a[Envoy] &dThe Envoy has ended! Congraulations to: " + p.getDisplayName() + " for collecting " + t + " Envoys!"));
+			}
+		}
+		envoyiter.clear();
+		envoyclicks.clear();
+	}
+
 	public boolean getDebugState() // Method to get our debug state
 	{
 		return DEBUGSTATE;
 	}
-	
+
 	public void toggleDebugState() // Method to toggle debug on and off
 	{
 		if(getDebugState())
@@ -267,6 +314,8 @@ public class Envoy
 	public void setInnerBound(double inbound)  // Method to set our inner bound
 	{
 		INBOUND = inbound;
+		plugin.getConfig().set("inbound", inbound);
+		plugin.saveConfig();
 	}
 
 	public double getOutterBound() // Method to get our outer bound
@@ -277,28 +326,32 @@ public class Envoy
 	public void setOutterBound(double outbound) // Method to set our outer bound
 	{
 		OUTBOUND = outbound;
+		plugin.getConfig().set("outbound", outbound);
+		plugin.saveConfig();
 	}
-	
+
 	public boolean getEnvoyActiveState() // Method to get if an envoy is active or not
 	{
 		return ACTIVE;
 	}
-	
+
 	public ArrayList<Block> getChestLocations() // Method to get chest locations
 	{
 		return chestlocations;
 	}
-	
+
 	public void setDistance(int d) // Method to set our minimum distance
 	{
 		DISTANCE = d;
+		plugin.getConfig().set("distancebetweencrates", d);
+		plugin.saveConfig();
 	}
-	
+
 	public int getDistance() // Method to get our minimum distance
 	{
 		return DISTANCE;
 	}
-	
+
 	public static Envoy getEnvoyEvent() // Method to get our current envoy state
 	{
 		return Envoy;
@@ -310,52 +363,102 @@ public class Envoy
 
 	public void setNumberPlayers(int num) {
 		NUMPLAYERSNEEDED = num;
+		plugin.getConfig().set("autostartplayers", num);
+		plugin.saveConfig();
 	}
-	
+
 	public int getAutoStartCrates()
 	{
 		return AUTOSTARTCRATES;
 	}
-	
+
 	public void setAutoStartCrates(int i)
 	{
 		AUTOSTARTCRATES = i;
+		plugin.getConfig().set("autostartcratenum", i);
+		plugin.saveConfig();
 	}
-	
+
 	public boolean getPlayersReached()
 	{
 		return PLAYERSREACHED;
 	}
-	
+
 	public void setPlayersReached(boolean b)
 	{
 		PLAYERSREACHED = b;
 	}
 
-	public int getLocationOn() {
+	public int getLocationOn() 
+	{
 		return GETLOCATIONON;
 	}
 
-	
 	public int getConditionTaskID() 
 	{
 		return CONTASKID;
 	}
 
-	
 	public void setConditionTaskID(int taskid)
 	{
 		CONTASKID = taskid;
 	}
-	
+
 	public void setEnderID(int taskid)
 	{
 		ENDERID = taskid;
 	}
-	
+
 	public boolean getAutoStart()
 	{
 		return AUTOSTART;
 	}
-	
+
+	public void setplugin(Main main) 
+	{
+		plugin = main;	
+	}
+
+	public Main getPlugin()
+	{
+		return plugin;
+	}
+
+	public void loadConfig()
+	{
+		INBOUND = plugin.getConfig().getInt("inbound");
+		OUTBOUND = plugin.getConfig().getInt("outbound");
+		DISTANCE = plugin.getConfig().getInt("distancebetweencrates");
+		AUTOSTARTCRATES = plugin.getConfig().getInt("autostartcratenum");
+		NUMPLAYERSNEEDED = plugin.getConfig().getInt("autostartplayers");
+		AUTOSTART = plugin.getConfig().getBoolean("autostartenabled");
+	}
+
+	public void setEnvoyClick(Player player)
+	{
+		if(envoyclicks.get(player) == null)
+		{
+			envoyclicks.put(player, 1);
+			if(envoyiter.contains(player))
+			{
+			}
+			else
+			{
+				envoyiter.add(player);
+			}
+		}
+		else
+		{
+			int t = envoyclicks.get(player) + 1;
+			envoyclicks.replace(player, t);
+			if(envoyiter.contains(player))
+			{
+			}
+			else
+			{
+				envoyiter.add(player);
+			}
+
+		}
+	}
 }

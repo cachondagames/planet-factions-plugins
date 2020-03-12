@@ -15,7 +15,7 @@ public class EnvoyAutoCommands  implements CommandExecutor
 	{
 		plugin.getCommand("envoyauto").setExecutor(this);
 	}
-	
+
 	@Override
 	public boolean onCommand(CommandSender player, Command cmd, String lbl, String[] args) {
 		Player p = (Player) player;
@@ -23,14 +23,14 @@ public class EnvoyAutoCommands  implements CommandExecutor
 		{
 			if(p.hasPermission("envoy.help"))
 			{
-				player.sendMessage(ChatColor.GREEN + "/envoyauto enable: Toggles the ability to have Envoys auto start");
-				player.sendMessage(ChatColor.GREEN + "/envoyauto players: Sets the amount of players needed to start an Envoy");
-				player.sendMessage(ChatColor.GREEN + "/envoyauto crates: Sets the amount of crates that will spawn on an auto start");
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto enable: Toggles the ability to have Envoys auto start"));
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto players: Sets the amount of players needed to start an Envoy"));
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto crates: Sets the amount of crates that will spawn on an auto start"));
 				return true;
 			}
 			else
 			{
-				player.sendMessage(ChatColor.RED + "You do not have permissions for this command!");
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4You do not have permissions for this command!"));
 				return false;
 			}
 		}
@@ -44,29 +44,29 @@ public class EnvoyAutoCommands  implements CommandExecutor
 					try
 					{
 						envoy.setAutoStartCrates(Integer.parseInt(args[1]));
-						player.sendMessage(ChatColor.GREEN + "You have set the number of crates to spawn on an auto start to: " + envoy.getAutoStartCrates());
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cYou have set the number of crates to spawn on an auto start to: " + envoy.getAutoStartCrates()));
 						return true;
 					}
 					catch(NumberFormatException | ArrayIndexOutOfBoundsException e)
 					{
 						if(e instanceof ArrayIndexOutOfBoundsException)
 						{
-							player.sendMessage(ChatColor.GREEN + "The current amount of crates is: " + envoy.getAutoStartCrates());
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe current amount of crates is: " + envoy.getAutoStartCrates()));
 							return true;
 						}
 						else
 						{
-							player.sendMessage("The amount of crates needs to be an integer!");
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4The amount of crates needs to be an integer!"));
 							return false;
 						}
 					}
 				}
 				else
 				{
-					player.sendMessage(ChatColor.RED + "You dont have permission to use this command!");
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4You do not have permissions for this command!"));
 					return false;
 				}
-			
+
 			case "players":
 				if(player.hasPermission("envoy.create"))
 				{
@@ -93,10 +93,59 @@ public class EnvoyAutoCommands  implements CommandExecutor
 						}
 					}
 				}
-			case "enable":
-				if(envoy.getEnvoyActiveState())
+				else
 				{
-					
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4You do not have permissions for this command!"));
+					return false;
+				}
+			case "enable":
+				try {
+					if(args[1].equalsIgnoreCase("true"))
+					{
+						if(envoy.getPlugin().getConfig().getBoolean("autostartenabled"))
+						{
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe server is already autostarting Envoys!"));
+							return true;
+						}
+						else
+						{
+							envoy.AutoStartSelector(true);
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe server will now auto start Envoys!"));
+							return true;
+						}
+					}
+					else if(args[1].equalsIgnoreCase("false"))
+					{
+						if(envoy.getPlugin().getConfig().getBoolean("autostartenabled"))
+						{
+							envoy.AutoStartSelector(false);
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe server will now stop auto starting Envoys!"));
+							return true;
+						}
+						else
+						{
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4The server is already not auto starting Envoys!"));
+							return true;
+						}
+					}
+					else
+					{
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4Invalid arguments! Use /envoyauto for help!"));
+						return false;
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e)
+				{
+					if(envoy.getPlugin().getConfig().getBoolean("autostartenabled"))
+					{
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe server is currently auto starting Envoys!"));
+						return true;
+					}
+					else
+					{
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe server is not currently auto starting Envoys!"));
+						return true;
+					}
 				}
 			default:
 				String s = "&a[Envoy] &4Invalid argument use /envoyauto help to see usage!";

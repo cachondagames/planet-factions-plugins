@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.planetfactions.envoy.Main;
 import org.planetfactions.envoy.app.Envoy;
 
 public class EnvoyStarter extends BukkitRunnable
@@ -17,20 +18,21 @@ public class EnvoyStarter extends BukkitRunnable
 	@Override
 	public void run()
 	{
+		Main plugin = envoy.getPlugin();
 		envoy.setConditionTaskID(this.getTaskId());
 		if(envoy.getPlayersReached())
 		{
-			if(envoy.getOutterBound() == 0)
+			if(plugin.getConfig().getDouble("outbound") == 0)
 				envoy.setOutterBound(30);
-			if(envoy.getInnerBound() == 0)
+			if(plugin.getConfig().getDouble("inbound") == 0)
 				envoy.setInnerBound(5);
 			if(envoy.getEnvoyActiveState())
-				Bukkit.broadcast(ChatColor.DARK_RED + "The server has attempted an auto start event however an Envoy is already active!", "envoy.create");
+				Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&[Envoy] &4The server has attempted an auto start event however an Envoy is already active!") , "envoy.create");
 			else
 			{
-				envoy.createEnvoy(envoy.getAutoStartCrates());
-				Bukkit.broadcast(ChatColor.DARK_RED + "The server has autostarted an envoy event!", "envoy.create");
-				BukkitTask autoender = new EnvoyAutoEnder().runTaskLater(Bukkit.getPluginManager().getPlugin("Envoy"), 36000L);
+				envoy.createEnvoy((int) plugin.getConfig().getDouble("autostartcratenum"));
+				Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&a[Envoy] &4The server has autostarted an envoy event!"), "envoy.create");
+				BukkitTask autoender = new EnvoyAutoEnder().runTaskLater(plugin, 36000L);
 				this.cancel();
 			}
 		}
