@@ -74,7 +74,7 @@ public class Envoy
 		}
 		chooseTier(chestlocations.get(0).getLocation());
 		List<Player> list = Bukkit.getWorlds().get(0).getPlayers();
-		String s = "&a[Envoy] &bA Envoy Event Has Started!" + System.lineSeparator() + "&a[Envoy] &dThe First Chest is at: " + "&4" + chestlocations.get(0).getX() + " " + "&4" + chestlocations.get(0).getY() + " " + "&4" + chestlocations.get(0).getZ();
+		String s = "&a[Envoy] &bA Envoy Event Has Started! " + "\n" + "&a[Envoy] &dThe First Chest is at: " + "&4" + chestlocations.get(0).getX() + " " + "&4" + chestlocations.get(0).getY() + " " + "&4" + chestlocations.get(0).getZ();
 		for(Player p : list)
 		{
 			p.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
@@ -234,6 +234,10 @@ public class Envoy
 		if(type.equals(Material.LONG_GRASS) || type.equals(Material.STATIONARY_WATER) || type.equals(Material.STATIONARY_LAVA))
 		{
 			l.setY(l.getY()-1);
+		}
+		if(type.equals(Material.DOUBLE_PLANT))
+		{
+			l.setY(l.getY()-2);
 		}
 		return l.getY();
 	}

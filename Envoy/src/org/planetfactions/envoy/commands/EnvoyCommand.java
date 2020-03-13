@@ -101,7 +101,7 @@ public class EnvoyCommand implements CommandExecutor
 						{
 							if(e instanceof ArrayIndexOutOfBoundsException) 
 							{
-								play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4Invalid number of arguments" + System.lineSeparator() + "Usage: /envoy inbound [bound]"));
+								play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4Invalid number of arguments" + "\n" + "Usage: /envoy inbound [bound]"));
 								return false;
 							}
 							else
@@ -130,7 +130,7 @@ public class EnvoyCommand implements CommandExecutor
 						{
 							if(e instanceof ArrayIndexOutOfBoundsException)
 							{
-								play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4Invalid number of arguments" + System.lineSeparator() + "Usage: /envoy outbound *outer bound*"));
+								play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4Invalid number of arguments" + "\n" + "Usage: /envoy outbound *outer bound*"));
 								return false;
 							}
 							else
@@ -172,7 +172,7 @@ public class EnvoyCommand implements CommandExecutor
 									if(envoy.possibleLocations(Integer.parseInt(args[1]))) // Checks to make sure that you can actually place as chests as defined by DISTANCE
 									{
 										envoy.createEnvoy(Integer.parseInt(args[1]));
-										play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cYou have started a new envoy!" + System.lineSeparator() + "Spawning in : " +  Integer.parseInt(args[1]) + " Chests"));
+										play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cYou have started a new envoy!" + "\n" + "Spawning in : " +  Integer.parseInt(args[1]) + " Chests"));
 										return true;
 									}
 									else
@@ -191,7 +191,7 @@ public class EnvoyCommand implements CommandExecutor
 							{
 								if(e instanceof ArrayIndexOutOfBoundsException)
 								{
-									play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4Invalid Arugments" + System.lineSeparator() + "Usage: /envoy create number of crates"));
+									play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4Invalid Arugments" + "\n" + "Usage: /envoy create number of crates"));
 									return false;
 								}
 								else
@@ -221,7 +221,7 @@ public class EnvoyCommand implements CommandExecutor
 						{
 							if(e instanceof ArrayIndexOutOfBoundsException)
 							{
-								String s = Integer.toString(envoy.getDistance());
+								String s = "The current distance is " + Integer.toString(envoy.getDistance()) + " blocks";
 								play.sendMessage(ChatColor.RED + ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c" + s));
 								return true;
 							}
@@ -240,7 +240,7 @@ public class EnvoyCommand implements CommandExecutor
 				case "reload":
 					if(play.hasPermission("envoy.create"))
 					{
-						if(envoy.getEnvoyActiveState())
+						if(!envoy.getEnvoyActiveState())
 						{
 							envoy.reloadConfig();
 							play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cConfig Reloaded!"));

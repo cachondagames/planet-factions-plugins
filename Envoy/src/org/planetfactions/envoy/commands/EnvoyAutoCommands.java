@@ -168,7 +168,7 @@ public class EnvoyAutoCommands  implements CommandExecutor
 						if(Long.parseLong(args[1]) > 0)
 						{
 							envoy.setAutoEndTime(Long.parseLong(args[1]));
-							player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe auto end time for Envoys is now: " + Long.parseLong(args[1]) +"!"));
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe auto end time for Envoys is now: " + Long.parseLong(args[1]) +" ticks!"));
 							return true;
 						}
 						else
@@ -181,7 +181,7 @@ public class EnvoyAutoCommands  implements CommandExecutor
 					{
 						if(e instanceof ArrayIndexOutOfBoundsException)
 						{
-							player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a[Envoy] &cThe current Envoy auto end time is: " + envoy.getAutoEndTime() + "!"));
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a[Envoy] &cThe current Envoy auto end time is: " + envoy.getAutoEndTime() + " ticks!"));
 							return true;
 						}
 						else
@@ -204,7 +204,7 @@ public class EnvoyAutoCommands  implements CommandExecutor
 						if(Long.parseLong(args[1]) > 0)
 						{
 							envoy.setAutoStartTime(Long.parseLong(args[1]));
-							player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe auto start time for Envoys is now: " + Long.parseLong(args[1]) +"!"));
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe auto start time for Envoys is now: " + Long.parseLong(args[1]) +" ticks!"));
 							return true;
 						}
 						else
@@ -217,7 +217,7 @@ public class EnvoyAutoCommands  implements CommandExecutor
 					{
 						if(e instanceof ArrayIndexOutOfBoundsException)
 						{
-							player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a[Envoy] &cThe current Envoy auto start time is: " + envoy.getAutoStartTime() + "!"));
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a[Envoy] &cThe current Envoy auto start time is: " + envoy.getAutoStartTime() + " ticks!"));
 							return true;
 						}
 						else
