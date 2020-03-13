@@ -33,6 +33,7 @@ public class EnvoyCommand implements CommandExecutor
 					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy outbound: Sets the outbounds (double)"));
 					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy debug: Turns on debug mode to the console"));
 					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy distance: Sets the minimum distance to which envoys can be next to each other"));
+					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy reload: reloads the config"));
 					return true;
 				}
 				else
@@ -236,7 +237,26 @@ public class EnvoyCommand implements CommandExecutor
 						play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4You do not have permissions for this command!"));
 						return false;
 					}
-
+				case "reload":
+					if(play.hasPermission("envoy.create"))
+					{
+						if(envoy.getEnvoyActiveState())
+						{
+							envoy.reloadConfig();
+							play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cConfig Reloaded!"));
+							return true;
+						}
+						else
+						{
+							play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4Please end the current Envoy before reloading!"));
+							return true;
+						}
+					}
+					else
+					{
+						play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4You do not have permissions for this command!"));
+						return false;
+					}
 				default: // Fallback send for anything that is not defined above
 					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4Invalid argument use /envoy for help"));
 					return false;

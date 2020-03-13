@@ -3,6 +3,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.planetfactions.envoy.app.Envoy;
+import org.planetfactions.envoy.app.announcer.EnvoyAutoAnnouncer;
 import org.planetfactions.envoy.app.listeners.EnvoyAutoPlayerListener;
 import org.planetfactions.envoy.app.listeners.EnvoyOpenListener;
 import org.planetfactions.envoy.app.listeners.Tier1Listener;
@@ -30,10 +31,14 @@ public class Main extends JavaPlugin
 		new Tier3Listener(this);
 		if(envoy.getAutoStart())
 		{
-			BukkitTask concheck = new EnvoyStarter().runTaskTimer(this, 36000L, 36000L);
+			if(envoy.getAnnounce())
+			{
+				EnvoyAutoAnnouncer.announce();
+			}
+			BukkitTask concheck = new EnvoyStarter().runTaskTimer(this, envoy.getAutoStartTime(), envoy.getAutoStartTime());
 			envoy.setConditionTaskID(concheck.getTaskId());
 		}
-		if(Bukkit.getOnlinePlayers().size() >= this.getConfig().getInt("autostartplayers"))
+		if(Bukkit.getOnlinePlayers().size() >= envoy.getNumberPlayers())
 		{
 			envoy.setPlayersReached(true);
 		}

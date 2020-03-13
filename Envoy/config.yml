@@ -3,6 +3,8 @@ inbound: 0 # min distance
 distancebetweencrates: 5 # the amount of blocks minimum betweeen crates
 autostartplayers: 10 # amount of players needed to autostart an envoy
 autostartcratenum: 5 # amount of crates to spawn on an autostart
-automaticendtime: 36000 # in ticks
-automaticstarttime: 36000 # in ticks
+autoendtime: 36000 # in ticks
+autostarttime: 36000 # in ticks
 autostartenabled: true # will the server auto start envoys?
+autoendenabled: true # will the server auto end envoys?
+announceenvoys: true # will the server announce when an envoy is going to begin?
