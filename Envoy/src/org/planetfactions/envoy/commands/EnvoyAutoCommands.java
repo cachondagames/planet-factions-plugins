@@ -23,13 +23,13 @@ public class EnvoyAutoCommands  implements CommandExecutor
 		{
 			if(p.hasPermission("envoy.help"))
 			{
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto autostart: Toggles the ability to have Envoys auto start"));
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto players: Sets the amount of players needed to start an Envoy"));
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto crates: Sets the amount of crates that will spawn on an auto start"));
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto starttime: Sets how long the server will wait to auto start an Envoy in ticks"));
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto endtime: Sets how long the server will wait to auto end an Envoy in ticks"));
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto autoend: Sets how long the server will wait to auto end an Envoy in ticks"));
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto announce: Sets if the server will announce Envoys!"));
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto autostart:" + "\n" + "&a[Envoy] &9Toggles the ability to have Envoys auto start"));
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto players:" + "\n" + "&a[Envoy] &9Sets the amount of players needed to start an Envoy"));
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto crates:" + "\n" + "&a[Envoy] &9Sets the amount of crates that will spawn on an auto start"));
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto starttime:" + "\n" + "&a[Envoy] &9Sets how long the server will wait to auto start an Envoy in ticks"));
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto endtime:" + "\n" + "&a[Envoy] &9Sets how long the server will wait to auto end an Envoy in ticks"));
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto autoend:" + "\n" + "&a[Envoy] &9Sets how long the server will wait to auto end an Envoy in ticks"));
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoyauto announce:" + "\n" + "&a[Envoy] &9Sets if the server will announce Envoys!"));
 				return true;
 			}
 			else

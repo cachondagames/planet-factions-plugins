@@ -9,6 +9,10 @@ import org.bukkit.entity.Player;
 import org.planetfactions.envoy.Main;
 import org.planetfactions.envoy.app.Envoy;
 
+import com.massivecraft.factions.Board;
+import com.massivecraft.factions.FLocation;
+import com.massivecraft.factions.Faction;
+
 
 public class EnvoyCommand implements CommandExecutor
 {
@@ -27,13 +31,14 @@ public class EnvoyCommand implements CommandExecutor
 			{
 				if(play.hasPermission("envoy.help")) // Displays help for the command
 				{
-					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy create: Makes a new envoy event"));
-					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy end: Ends the current envoy event"));
-					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy inbound: Sets the inbounds (double)"));
-					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy outbound: Sets the outbounds (double)"));
-					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy debug: Turns on debug mode to the console"));
-					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy distance: Sets the minimum distance to which envoys can be next to each other"));
-					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy reload: reloads the config"));
+					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy create:" + "\n" + "&a[Envoy] &9Makes a new envoy event"));
+					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy end:" + "\n" + "&a[Envoy] &9Ends the current envoy event"));
+					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy inbound:" + "\n" + "&a[Envoy] &9Sets the inbounds (double)"));
+					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy outbound:" + "\n" + "&a[Envoy] &9Sets the outbounds (double)"));
+					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy debug:" + "\n" + "&a[Envoy] &9Turns on debug mode to the console"));
+					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy distance:" + "\n" + "&a[Envoy] &9Sets the minimum distance to which envoys can be next to each other"));
+					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy reload:" + "\n" + "&a[Envoy] &9reloads the config"));
+					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy warzone:" + "\n" + "&a[Envoy] &9Sets if Envoys can only spawn in the warzone"));
 					return true;
 				}
 				else
@@ -101,7 +106,7 @@ public class EnvoyCommand implements CommandExecutor
 						{
 							if(e instanceof ArrayIndexOutOfBoundsException) 
 							{
-								play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4Invalid number of arguments" + "\n" + "Usage: /envoy inbound [bound]"));
+								play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe current inner bound is: " + envoy.getInnerBound()));
 								return false;
 							}
 							else
@@ -130,7 +135,7 @@ public class EnvoyCommand implements CommandExecutor
 						{
 							if(e instanceof ArrayIndexOutOfBoundsException)
 							{
-								play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4Invalid number of arguments" + "\n" + "Usage: /envoy outbound *outer bound*"));
+								play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe current outer bound is: " + envoy.getOutterBound()));
 								return false;
 							}
 							else
@@ -169,15 +174,14 @@ public class EnvoyCommand implements CommandExecutor
 							{
 								if(!envoy.getEnvoyActiveState()) // Ensures that an envoy event is not already active
 								{
-									if(envoy.possibleLocations(Integer.parseInt(args[1]))) // Checks to make sure that you can actually place as chests as defined by DISTANCE
+									int i = envoy.createEnvoy(Integer.parseInt(args[1]));
+									if(i == 1)
 									{
-										envoy.createEnvoy(Integer.parseInt(args[1]));
 										play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cYou have started a new envoy!" + "\n" + "Spawning in : " +  Integer.parseInt(args[1]) + " Chests"));
 										return true;
 									}
 									else
 									{
-										play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4You need to set higher bounds or decrease your number of crates!"));
 										return false;
 									}
 								}
@@ -257,6 +261,69 @@ public class EnvoyCommand implements CommandExecutor
 						play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4You do not have permissions for this command!"));
 						return false;
 					}
+				case "warzone":
+					if(play.hasPermission("envoy.create"))
+					{
+						try 
+						{
+							if(args[1].equalsIgnoreCase("true"))
+							{
+								if(envoy.getPlugin().getConfig().getBoolean("onlyspawninwarzone"))
+								{
+									play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe server is already only spawing Envoys in the Warzone!"));
+									return true;
+								}
+								else
+								{
+									envoy.setWarZone(true);
+									play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe server will now only spawn Envoys in the Warzone!"));
+									return true;
+								}
+							}
+							else if(args[1].equalsIgnoreCase("false"))
+							{
+								if(envoy.getPlugin().getConfig().getBoolean("onlyspawninwarzone"))
+								{
+									envoy.setWarZone(false);
+									play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe server will now stop only spawning Envoys in the Warzone!"));
+									return true;
+								}
+								else
+								{
+									play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4The server is already not only spawning Envoys in the Warzone!"));
+									return true;
+								}
+							}
+							else
+							{
+								play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4Invalid arguments! Use /envoyauto for help!"));
+								return false;
+							}
+						}
+						catch(ArrayIndexOutOfBoundsException e)
+						{
+							if(envoy.getPlugin().getConfig().getBoolean("onlyspawninwarzone"))
+							{
+								play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe server is currently only spawning Envoys in the Warzone!"));
+								return true;
+							}
+							else
+							{
+								play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cThe server is not currently only spawning Envoys in the Warzone!"));
+								return true;
+							}
+						}
+					}
+					else
+					{
+						play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4You do not have permissions for this command!"));
+						return false;
+					}
+				case "test": 
+					FLocation location = new FLocation(play.getLocation());
+					Faction faction = Board.getInstance().getFactionAt(location);
+					play.sendMessage(faction.getId());
+					return true;
 				default: // Fallback send for anything that is not defined above
 					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4Invalid argument use /envoy for help"));
 					return false;

@@ -8,3 +8,4 @@ autostarttime: 36000 # in ticks
 autostartenabled: true # will the server auto start envoys?
 autoendenabled: true # will the server auto end envoys?
 announceenvoys: true # will the server announce when an envoy is going to begin?
+onlyspawninwarzone: true # will the server only spawn an envoy in the warzone?
