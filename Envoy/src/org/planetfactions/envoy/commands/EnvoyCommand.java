@@ -9,9 +9,6 @@ import org.bukkit.entity.Player;
 import org.planetfactions.envoy.Main;
 import org.planetfactions.envoy.app.Envoy;
 
-import com.massivecraft.factions.Board;
-import com.massivecraft.factions.FLocation;
-import com.massivecraft.factions.Faction;
 
 
 public class EnvoyCommand implements CommandExecutor
@@ -320,9 +317,8 @@ public class EnvoyCommand implements CommandExecutor
 						return false;
 					}
 				case "test": 
-					FLocation location = new FLocation(play.getLocation());
-					Faction faction = Board.getInstance().getFactionAt(location);
-					play.sendMessage(faction.getId());
+					play.sendMessage(Envoy.getEnvoyEvent().getPlugin().getConfig().getStringList("Prizes.basic.1.Items.1.Enchants").get(0).split(","));
+					play.sendMessage(String.valueOf(envoy.getPlugin().getConfig().getInt("Prizes.basic.1.Items.Amount")));
 					return true;
 				default: // Fallback send for anything that is not defined above
 					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4Invalid argument use /envoy for help"));

@@ -18,6 +18,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.planetfactions.envoy.Main;
 import org.planetfactions.envoy.app.Envoy;
 import org.planetfactions.envoy.app.events.EnvoyTier1OpenEvent;
+import org.planetfactions.envoy.app.messages.Message;
 
 public class Tier1Listener implements Listener
 {
@@ -33,6 +34,7 @@ public class Tier1Listener implements Listener
 	{
 		try
 		{
+			Main plugin = envoy.getPlugin();
 			ArrayList<Block> block = envoy.getChestLocations();
 			int i = envoy.getLocationOn();
 			e.getLocation().getBlock().setType(Material.AIR);
@@ -48,6 +50,7 @@ public class Tier1Listener implements Listener
             fwm.setPower(3);
             fw.setFireworkMeta(fwm);
             envoy.setEnvoyClick(e.getPlayer());
+            Message.isGood("basic", e.getPlayer());
 		}
 		catch(IndexOutOfBoundsException i)
 		{

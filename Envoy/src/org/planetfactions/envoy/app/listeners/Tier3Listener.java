@@ -18,6 +18,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.planetfactions.envoy.Main;
 import org.planetfactions.envoy.app.Envoy;
 import org.planetfactions.envoy.app.events.EnvoyTier3OpenEvent;
+import org.planetfactions.envoy.app.messages.Message;
 
 public class Tier3Listener implements Listener
 {
@@ -48,6 +49,7 @@ public class Tier3Listener implements Listener
             fwm.setPower(3);
             fw.setFireworkMeta(fwm);
             envoy.setEnvoyClick(e.getPlayer());
+            Message.isGood("advanced", e.getPlayer());
 		}
 		catch(IndexOutOfBoundsException i)
 		{

@@ -1,5 +1,5 @@
-outbound: 0 # max distance
-inbound: 0 # min distance
+outbound: 30 # max distance
+inbound: 5 # min distance
 distancebetweencrates: 5 # the amount of blocks minimum betweeen crates
 autostartplayers: 10 # amount of players needed to autostart an envoy
 autostartcratenum: 5 # amount of crates to spawn on an autostart
@@ -9,3 +9,72 @@ autostartenabled: true # will the server auto start envoys?
 autoendenabled: true # will the server auto end envoys?
 announceenvoys: true # will the server announce when an envoy is going to begin?
 onlyspawninwarzone: true # will the server only spawn an envoy in the warzone?
+
+Prizes:
+   'basic':
+      '1':
+         Message:
+         - "&7You are Dope"
+         - "&aThis is cool"
+         - "&cCoolest"
+         Chance: 100
+         Commands:
+         - "give %player% cooked_beef 64"
+         - "give %player% red_flower 64"
+         - "give %player% diamond 64"
+         'Items':
+            1:
+               Item: "diamond_helmet"
+               ItemName: "Big Soap"
+               Amount: 1
+               Enchants:
+               - "PROTECTION_ENVIRONMENTAL,3"
+               Lore:
+               - "cooool"
+               - "wppppw"
+               - "yimmu"
+   'standard':
+      '1':
+         Message:
+         - "&7You are Dope"
+         - "&aThis is cool"
+         - "&cCoolest"
+         Chance: 100
+         Commands:
+         - "give %player% cooked_beef 64"
+         - "give %player% red_flower 64"
+         - "give %player% diamond 64"
+         'Items':
+            1:
+               Item: "diamond_helmet"
+               ItemName: "Big Soap"
+               Amount: 1
+               Enchants:
+               - "PROTECTION_ENVIRONMENTAL,3"
+               Lore:
+               - "cooool"
+               - "wppppw"
+               - "yimmu"
+   'advanced':
+      '1':
+         Message:
+         - "&7You are Dope"
+         - "&aThis is cool"
+         - "&cCoolest"
+         Chance: 100
+         Commands:
+         - "give %player% cooked_beef 64"
+         - "give %player% red_flower 64"
+         - "give %player% diamond 64"
+         'Items':
+            1:
+               Item: "diamond_helmet"
+               ItemName: "Big Soap"
+               Amount: 1
+               Enchants:
+               - "PROTECTION_ENVIRONMENTAL,3"
+               Lore:
+               - "cooool"
+               - "wppppw"
+               - "yimmu"
+      

@@ -36,25 +36,25 @@ public class Envoy
 	private ArrayList<Player> envoyiter = new ArrayList<Player>();
 	private ArrayList<Block> chestlocations = new ArrayList<Block>();
 	private Main plugin;
-	private boolean DEBUGSTATE = false;
+	private static Envoy Envoy = new Envoy();
+	private long AUTOENDTIME = 36000L;
+	private long AUTOSTARTTIME = 36000L;
 	private double OUTBOUND = 0;
 	private double INBOUND = 0;
 	private int DISTANCE = 10;
-	private boolean ACTIVE = false;
-	private static Envoy Envoy = new Envoy();
 	private int NUMPLAYERSNEEDED = 1;
 	private int AUTOSTARTCRATES = 5;
-	private boolean PLAYERSREACHED = false;
 	private int GETLOCATIONON = 0;
 	private int CONTASKID = 0;
-	private long AUTOENDTIME = 36000L;
-	private long AUTOSTARTTIME = 36000L;
 	private int ENDERID = 0;
 	private boolean AUTOSTART = true;
 	private boolean AUTOEND = true;
 	private boolean ANNOUNCE = true;
 	private boolean WARZONE = true;
-
+	private boolean ACTIVE = false;
+	private boolean PLAYERSREACHED = false;
+	private boolean DEBUGSTATE = false;
+	
 	public int createEnvoy(int numcrates) // Initial call to spawn all the crates
 	{	
 		Location spawn = Bukkit.getWorld("world").getSpawnLocation(); // Gets world spawn

@@ -19,7 +19,8 @@ public class Main extends JavaPlugin
 	Envoy envoy = Envoy.getEnvoyEvent();
 	public void onEnable()
 	{
-		saveDefaultConfig();
+		getConfig().options().copyDefaults(true);
+		saveConfig();
 		envoy.setplugin(this);
 		envoy.loadConfig();
 		new EnvoyCommand(this);
