@@ -1,6 +1,6 @@
 main: org.planetfactions.envoy.Main
 name: Envoy
-version: '1.0.0'
+version: '1.0.1'
 description: A Envoy Plugin
 softdepend: [Factions]
 
