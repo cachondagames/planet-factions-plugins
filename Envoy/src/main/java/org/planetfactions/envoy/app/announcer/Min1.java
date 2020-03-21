@@ -20,7 +20,7 @@ public class Min1 extends BukkitRunnable
 		List<Player> list = Bukkit.getWorlds().get(0).getPlayers();
 		for(Player p : list)
 		{
-			p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2[Envoy] &bAn Envoy Event is going to begin in 5 Minutes!"));
+			p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a[Envoy] &bAn Envoy Event is going to begin in 5 Minutes!"));
 		}
 	}
 }

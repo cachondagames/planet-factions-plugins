@@ -1,4 +1,4 @@
-package org.planetfactions.envoy.commands;
+package org.planetfactions.envoy.app.commands;
 
 
 import org.bukkit.ChatColor;
@@ -36,6 +36,7 @@ public class EnvoyCommand implements CommandExecutor
 					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy distance:" + "\n" + "&a[Envoy] &9Sets the minimum distance to which envoys can be next to each other"));
 					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy reload:" + "\n" + "&a[Envoy] &9reloads the config"));
 					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy warzone:" + "\n" + "&a[Envoy] &9Sets if Envoys can only spawn in the warzone"));
+					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &c/envoy middle:" + "\n" + "&a[Envoy] &9Sets the point to spawn Envoys around"));
 					return true;
 				}
 				else
@@ -316,10 +317,18 @@ public class EnvoyCommand implements CommandExecutor
 						play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4You do not have permissions for this command!"));
 						return false;
 					}
-				case "test": 
-					play.sendMessage(Envoy.getEnvoyEvent().getPlugin().getConfig().getStringList("Prizes.basic.1.Items.1.Enchants").get(0).split(","));
-					play.sendMessage(String.valueOf(envoy.getPlugin().getConfig().getInt("Prizes.basic.1.Items.Amount")));
-					return true;
+				case "middle":
+					if(play.hasPermission("envoy.create"))
+					{
+						envoy.setLocation(play.getLocation());
+						play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &cEnvoys are now spawning around this location!"));
+						return true;
+					}
+					else
+					{
+						play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4You do not have permissions for this command!"));
+						return false;
+					}
 				default: // Fallback send for anything that is not defined above
 					play.sendMessage(ChatColor.translateAlternateColorCodes('&' , "&a[Envoy] &4Invalid argument use /envoy for help"));
 					return false;

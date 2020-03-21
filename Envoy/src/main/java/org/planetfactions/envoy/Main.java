@@ -10,8 +10,8 @@ import org.planetfactions.envoy.app.listeners.Tier1Listener;
 import org.planetfactions.envoy.app.listeners.Tier2Listener;
 import org.planetfactions.envoy.app.listeners.Tier3Listener;
 import org.planetfactions.envoy.app.timers.EnvoyStarter;
-import org.planetfactions.envoy.commands.EnvoyAutoCommands;
-import org.planetfactions.envoy.commands.EnvoyCommand;
+import org.planetfactions.envoy.app.commands.EnvoyAutoCommands;
+import org.planetfactions.envoy.app.commands.EnvoyCommand;
 
 
 public class Main extends JavaPlugin

@@ -20,7 +20,7 @@ public class Sec30 extends BukkitRunnable
 		List<Player> list = Bukkit.getWorlds().get(0).getPlayers();
 		for(Player p : list)
 		{
-			p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2[Envoy] &bAn Envoy Event is going to begin in 30 Seconds!"));
+			p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a[Envoy] &bAn Envoy Event is going to begin in 30 Seconds!"));
 		}
 	}
 }

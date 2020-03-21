@@ -9,10 +9,13 @@ autostartenabled: true # will the server auto start envoys?
 autoendenabled: true # will the server auto end envoys?
 announceenvoys: true # will the server announce when an envoy is going to begin?
 onlyspawninwarzone: true # will the server only spawn an envoy in the warzone?
+middle: "0,100,0,world"
 
 Prizes:
    'basic':
+      Block: chest
       '1':
+         
          Message:
          - "&7You are Dope"
          - "&aThis is cool"
@@ -34,6 +37,7 @@ Prizes:
                - "wppppw"
                - "yimmu"
    'standard':
+      Block: ender_chest
       '1':
          Message:
          - "&7You are Dope"
@@ -56,6 +60,7 @@ Prizes:
                - "wppppw"
                - "yimmu"
    'advanced':
+      Block: beacon
       '1':
          Message:
          - "&7You are Dope"

@@ -1,4 +1,4 @@
-package org.planetfactions.envoy.commands;
+package org.planetfactions.envoy.app.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
