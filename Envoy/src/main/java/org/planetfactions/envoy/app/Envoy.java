@@ -198,13 +198,11 @@ public class Envoy
 			{
 				if (block.getLocation().distance(b.getLocation()) < DISTANCE) // Using distance method to ensure no chest is within 10 blocks of each other
 				{
-					System.out.println("HSDAJDSJHADGA");
 					return false;
 				}
 			}
 			if(b.getLocation().distance(location) < INBOUND) // Using distance method to ensure that negative numbers dont cause our location to be set inside of our INBOUND
 			{
-				System.out.println(b.getLocation().distance(location));
 				return false;
 			}
 			if(WARZONE)
