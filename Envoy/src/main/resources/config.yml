@@ -14,72 +14,7 @@ middle: "0,100,0,world"
 Prizes:
    'basic':
       Block: chest
-      '1':
-         
-         Message:
-         - "&7You are Dope"
-         - "&aThis is cool"
-         - "&cCoolest"
-         Chance: 100
-         Commands:
-         - "give %player% cooked_beef 64"
-         - "give %player% red_flower 64"
-         - "give %player% diamond 64"
-         'Items':
-            1:
-               Item: "diamond_helmet"
-               ItemName: "Big Soap"
-               Amount: 1
-               Enchants:
-               - "PROTECTION_ENVIRONMENTAL,3"
-               Lore:
-               - "cooool"
-               - "wppppw"
-               - "yimmu"
    'standard':
       Block: ender_chest
-      '1':
-         Message:
-         - "&7You are Dope"
-         - "&aThis is cool"
-         - "&cCoolest"
-         Chance: 100
-         Commands:
-         - "give %player% cooked_beef 64"
-         - "give %player% red_flower 64"
-         - "give %player% diamond 64"
-         'Items':
-            1:
-               Item: "diamond_helmet"
-               ItemName: "Big Soap"
-               Amount: 1
-               Enchants:
-               - "PROTECTION_ENVIRONMENTAL,3"
-               Lore:
-               - "cooool"
-               - "wppppw"
-               - "yimmu"
    'advanced':
       Block: beacon
-      '1':
-         Message:
-         - "&7You are Dope"
-         - "&aThis is cool"
-         - "&cCoolest"
-         Chance: 100
-         Commands:
-         - "give %player% cooked_beef 64"
-         - "give %player% red_flower 64"
-         - "give %player% diamond 64"
-         'Items':
-            1:
-               Item: "diamond_helmet"
-               ItemName: "Big Soap"
-               Amount: 1
-               Enchants:
-               - "PROTECTION_ENVIRONMENTAL,3"
-               Lore:
-               - "cooool"
-               - "wppppw"
-               - "yimmu"
-      

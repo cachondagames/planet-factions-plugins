@@ -20,7 +20,8 @@ public class Message
 {
 	public static String playerReplace(String s, Player p)
 	{
-		s = s.replaceAll("%player%", p.getDisplayName());
+		s = s.replaceAll("%player%", p.getName());
+		System.out.println(p.getName());
 		return s;
 	}
 

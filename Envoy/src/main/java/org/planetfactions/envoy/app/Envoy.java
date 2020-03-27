@@ -511,23 +511,7 @@ public class Envoy
 	public void reloadConfig()
 	{
 		plugin.reloadConfig();
-		INBOUND = plugin.getConfig().getInt("inbound");
-		OUTBOUND = plugin.getConfig().getInt("outbound");
-		DISTANCE = plugin.getConfig().getInt("distancebetweencrates");
-		AUTOSTARTCRATES = plugin.getConfig().getInt("autostartcratenum");
-		NUMPLAYERSNEEDED = plugin.getConfig().getInt("autostartplayers");
-		AUTOSTART = plugin.getConfig().getBoolean("autostartenabled");
-		AUTOSTARTTIME = plugin.getConfig().getLong("autostarttime");
-		AUTOENDTIME = plugin.getConfig().getLong("autoendtime");
-		AUTOEND = plugin.getConfig().getBoolean("autoendenabled");
-		ANNOUNCE = plugin.getConfig().getBoolean("announceenvoys");
-		WARZONE = plugin.getConfig().getBoolean("onlyspawninwarzone");
-		String temp = plugin.getConfig().getString("middle");
-		String[] t = temp.split(",");
-		location.setWorld(Bukkit.getWorld(t[3]));
-		location.setX(Double.parseDouble(t[0]));
-		location.setX(Double.parseDouble(t[1]));
-		location.setX(Double.parseDouble(t[2]));
+		loadConfig();
 	}
 
 	public void setAutoStartTime(long l)

@@ -19,8 +19,7 @@ public class Main extends JavaPlugin
 	Envoy envoy = Envoy.getEnvoyEvent();
 	public void onEnable()
 	{
-		getConfig().options().copyDefaults(true);
-		saveConfig();
+		this.saveDefaultConfig();
 		envoy.setplugin(this);
 		envoy.loadConfig();
 		new EnvoyCommand(this);
@@ -34,7 +33,6 @@ public class Main extends JavaPlugin
 		{
 			if(this.getServer().getPluginManager().getPlugin("Factions").isEnabled())
 			{
-				envoy.setWarZone(true);
 				this.getServer().getConsoleSender().sendMessage("[Envoy] Only Spawning the Warzone option is now enabled!");
 			}
 		}
@@ -61,5 +59,4 @@ public class Main extends JavaPlugin
 			envoy.setPlayersReached(false);
 		}
 	}
-
 }
