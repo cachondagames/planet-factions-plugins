@@ -1,0 +1,8 @@
+main: org.planetfactions.gamble.Main
+name: Gamble
+version: '1.0.1'
+description: A Gamble
+
+commands:
+   spawn:
+      description: bitch

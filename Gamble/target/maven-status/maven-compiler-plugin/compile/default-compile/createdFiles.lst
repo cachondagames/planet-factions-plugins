@@ -1,0 +1,5 @@
+org\planetfactions\gamble\Inv.class
+org\planetfactions\gamble\Main.class
+org\planetfactions\gamble\spawn\CommandSpawner.class
+org\planetfactions\gamble\listeners\Listeners.class
+org\planetfactions\gamble\data\Data.class
